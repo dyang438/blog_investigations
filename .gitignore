@@ -1,0 +1,5 @@
+*.o
+*.exe
+
+cleque/cleque_test
+cleque/deque_test
