@@ -15,5 +15,6 @@ double timer_end_time (char* test_name, clock_t start_time)
 	clock_t end_time = clock();
 	double time_spent = (double)(end_time - start_time) / CLOCKS_PER_SEC;
 	fprintf(stderr, "Time spent in %s: %f seconds\n_________\n", test_name, time_spent);
+	fprintf(stdout, "%f\t", time_spent);
 	return time_spent;
 }

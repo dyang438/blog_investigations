@@ -6,17 +6,23 @@ CFLAGS = -Wall -Wextra -std=c99
 # Source files
 CLEQUE_SRCS = cleque_ptr.c cleque_test.c test_timing.c
 DEQUE_SRCS = deque.c deque_test.c test_timing.c
+DEQUE_MOV_SRCS = deque.c deque_test_moving.c test_timing.c
+DEQUE_PERF_SRCS = deque.c deque_perf.c
 
 # Object files (one for each source file)
 CLEQUE_OBJS = $(CLEQUE_SRCS:.c=.o)
 DEQUE_OBJS = $(DEQUE_SRCS:.c=.o)
+DEQUE_MOV_OBJS = $(DEQUE_MOV_SRCS:.c=.o)
+DEQUE_PERF_OBJS = $(DEQUE_PERF_SRCS:.c=.o)
 
 # Executable name
 CLEQUE_EXEC = cleque_test
 DEQUE_EXEC = deque_test
+DEQUE_MOV_EXEC = deque_test_moving
+DEQUE_PERF_EXEC = deque_perf
 
 # Default target
-all: $(CLEQUE_EXEC) $(DEQUE_EXEC)
+all: $(CLEQUE_EXEC) $(DEQUE_EXEC) $(DEQUE_MOV_EXEC) $(DEQUE_PERF_EXEC)
 
 # Link object files to create the executable
 $(CLEQUE_EXEC): $(CLEQUE_OBJS)
@@ -25,13 +31,19 @@ $(CLEQUE_EXEC): $(CLEQUE_OBJS)
 $(DEQUE_EXEC): $(DEQUE_OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
+$(DEQUE_MOV_EXEC): $(DEQUE_MOV_OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+	
+$(DEQUE_PERF_EXEC): $(DEQUE_PERF_OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+
 # Compile source files to object files
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Clean target to remove compiled files
 clean:
-	rm -f $(CLEQUE_OBJS) $(CLEQUE_EXEC) $(DEQUE_OBJS) $(DEQUE_EXEC)
+	rm -f $(CLEQUE_OBJS) $(CLEQUE_EXEC) $(DEQUE_OBJS) $(DEQUE_EXEC) $(DEQUE_MOV_OBJS) $(DEQUE_MOV_EXEC) $(DEQUE_PERF_OBJS) $(DEQUE_PERF_EXEC)
 
 # Phony targets
 .PHONY: all clean

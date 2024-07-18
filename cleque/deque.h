@@ -21,14 +21,16 @@ typedef struct deque
 deque;
 
 
-deque* init_deque (int* array, int size);
+deque* init_deque ();
 
 int deque_pop_front (deque* input);
 
 int deque_pop_back (deque* input);
 
-void deque_push_front(deque *input, int val);
+void deque_push_front(deque *input, int val, int print);
 
-void deque_push_back(deque *input, int val);
+void deque_push_back(deque *input, int val, int print);
 
 void print_deque(deque* input);
+
+void free_deque(deque* input);
