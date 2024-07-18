@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "deque.h"
 #include "test_timing.h"
-#include <alloca.h>
 
 #define TEST_SIZE 10
 #define MOVING_SIZE 10
