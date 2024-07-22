@@ -67,8 +67,15 @@ int fragmented_bench()
 
 	timer_end_time("Fragmented Bench Backwards", start_time);
 	
+	deque* fight = init_deque();
+	for (int i = 0; i < TEST_SIZE; i++)
+	{
+		deque_push_front(fight, x[i], NO_PRINT);
+	}
+	
 	free_deque(main_deque);
 	free_deque(frag_deque);
+	free_deque(fight);
 
 	return 0;
 }
@@ -113,6 +120,12 @@ int normal_bench()
 
 	timer_end_time("Normal Bench Backwards", start_time);
 
+	deque* fight = init_deque();
+	for (int i = 0; i < TEST_SIZE; i++)
+	{
+		deque_push_front(fight, x[i], NO_PRINT);
+	}
 	free_deque(main_deque);
+	free_deque(fight);
 	return 0;
 }
