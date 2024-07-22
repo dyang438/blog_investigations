@@ -1,27 +1,27 @@
 #include "test_timing.h"
 #include "deque.h"
 
-
 #define TEST_SIZE 100000
 #define REP_SIZE 100
-#define FRAG_SIZE 41
 #define PRINT 1
 #define NO_PRINT 0
+
 
 int fragmented_bench();
 int normal_bench();
 
+
 int main()
 {
-	fragmented_bench();
 	normal_bench();
+	
+	fragmented_bench();
 }
 
 
 int fragmented_bench() 
 {
 	deque* main_deque = init_deque();
-	void* frag_arr [2 * TEST_SIZE];
 	deque* frag_deque = init_deque();
 
 	for (int i = 0; i < TEST_SIZE; i++)
@@ -30,14 +30,10 @@ int fragmented_bench()
 		deque_push_front(frag_deque, i, NO_PRINT);
 		deque_push_front(frag_deque, i, NO_PRINT);
 
-	//	void* frag1 = malloc(FRAG_SIZE);
-	//	frag_arr[2*i] = frag1;
-		
 		deque_push_back(main_deque, i, NO_PRINT);
 		deque_push_front(frag_deque, i, NO_PRINT);
 		deque_push_front(frag_deque, i, NO_PRINT);
-	//	void* frag2 = malloc(FRAG_SIZE);
-	//	frag_arr[2*i+1] = frag2;
+
 	}
 	
 	int x [TEST_SIZE];
@@ -74,10 +70,6 @@ int fragmented_bench()
 	free_deque(main_deque);
 	free_deque(frag_deque);
 
-//	for (int i = 0; i < 2 * TEST_SIZE; i++) 
-//	{
-//		free(frag_arr[i]);
-//	}
 	return 0;
 }
 
