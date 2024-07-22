@@ -5,6 +5,7 @@
 
 #define TEST_SIZE 100000
 #define REP_SIZE 100
+#define FRAG_SIZE 1
 #define PRINT 1
 #define NO_PRINT 0
 
@@ -27,11 +28,11 @@ int fragmented_bench()
 	for (int i = 0; i < TEST_SIZE; i++)
 	{
 		deque_push_front(main_deque, i, NO_PRINT);
-		void* frag1 = malloc(100);
+		void* frag1 = malloc(FRAG_SIZE);
 		frag_arr[2*i] = frag1;
 		
 		deque_push_back(main_deque, i, NO_PRINT);
-		void* frag2 = malloc(100);
+		void* frag2 = malloc(FRAG_SIZE);
 		frag_arr[2*i+1] = frag2;
 	}
 	
