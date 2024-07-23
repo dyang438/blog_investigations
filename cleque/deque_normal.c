@@ -6,36 +6,24 @@
 #define PRINT 1
 #define NO_PRINT 0
 
+int normal_bench();
 
-int fragmented_bench();
-
-
-int main()
-{
-	fragmented_bench();
+int main() {
+	normal_bench();	
 }
 
-
-int fragmented_bench() 
+int normal_bench() 
 {
 	deque* main_deque = init_deque();
-	deque* frag_deque = init_deque();
-
 	for (int i = 0; i < TEST_SIZE; i++)
 	{
 		deque_push_front(main_deque, i, NO_PRINT);
-		deque_push_front(frag_deque, i, NO_PRINT);
-		deque_push_front(frag_deque, i, NO_PRINT);
-
 		deque_push_back(main_deque, i, NO_PRINT);
-		deque_push_front(frag_deque, i, NO_PRINT);
-		deque_push_front(frag_deque, i, NO_PRINT);
-
 	}
 	
 	int x [TEST_SIZE];
 	
-	clock_t start_time = timer_start_time("Fragmented Bench Forwards");
+	clock_t start_time = timer_start_time("Normal Bench Forwards");
 
 	for (int i = 0; i < REP_SIZE; i++)
 	{
@@ -46,10 +34,10 @@ int fragmented_bench()
 			x[i] = iterfront->payload;
 		}
 	}
-	timer_end_time("Fragmented Bench Forwards", start_time);
+	timer_end_time("Normal Bench Forwards", start_time);
 	
 
-	start_time = timer_start_time("Fragmented Bench Backwards");
+	start_time = timer_start_time("Normal Bench Backwards");
 
 	for (int i = 0; i < REP_SIZE; i++)
 	{
@@ -62,17 +50,14 @@ int fragmented_bench()
 
 	}
 
-	timer_end_time("Fragmented Bench Backwards", start_time);
-	
+	timer_end_time("Normal Bench Backwards", start_time);
+
 	deque* fight = init_deque();
 	for (int i = 0; i < TEST_SIZE; i++)
 	{
 		deque_push_front(fight, x[i], NO_PRINT);
 	}
-	
 	free_deque(main_deque);
-	free_deque(frag_deque);
 	free_deque(fight);
-
 	return 0;
 }
