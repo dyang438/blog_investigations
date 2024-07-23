@@ -9,7 +9,7 @@ CFLAGS = -Wall -Wextra -O3
 SRCS = main.cpp ../time_bench/cpp_test.cpp ../deque_cache/deque.c
 
 # Object files (one for each source file)
-OBJS = $(SRCS:.cpp=.o)
+OBJS = $(SRCS:.cpp=.o) $(SRCS:.c=.o)
 
 # Executable name
 EXEC = target
@@ -23,6 +23,9 @@ $(EXEC): $(OBJS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean: 
 	rm -f $(OBJS) $(EXEC) 
