@@ -1,30 +1,28 @@
 # Compiler and flags
-CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -O3
+CXX = g++
+CXXFLAGS = -Wall -Wextra -O3
 
-
-# Source files
-TEST_SRCS = main.cpp ../time_bench/test_timing.c
+#Source Files
+SRCS = main.cpp ../time_bench/cpp_test.cpp
 
 # Object files (one for each source file)
-TEST_OBJS = $(TEST_SRCS:.c=.o)
+OBJS = $(SRCS:.cpp=.o)
 
 # Executable name
-TEST_EXEC = test_test
+EXEC = target
 
 # Default target
-all: $(TEST_EXEC) 
-
+all: $(EXEC) 
 
 # Link object files to create the executable
-$(TEST_EXEC): $(TEST_OBJS)
-	$(CC) $(CFLAGS) -o $@ $^
+$(EXEC): $(OBJS)
+	$(CXX) $(OBJS) -o $(EXEC)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean: 
-	rm -f $(TEST_OBJS) $(TEST_EXEC) 
+	rm -f $(OBJS) $(EXEC) 
 
 # Phony targets
 .PHONY: all clean
