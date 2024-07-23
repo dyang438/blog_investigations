@@ -4,27 +4,27 @@ CFLAGS = -Wall -Wextra -std=c99 -O3
 
 
 # Source files
-CLEQUE_SRCS = cleque_ptr.c cleque_test.c ../time_bench/test_timing.c
+TEST_SRCS = main.cpp ../time_bench/test_timing.c
 
 # Object files (one for each source file)
-CLEQUE_OBJS = $(CLEQUE_SRCS:.c=.o)
+TEST_OBJS = $(TEST_SRCS:.c=.o)
 
 # Executable name
-CLEQUE_EXEC = cleque_test
+TEST_EXEC = test_test
 
 # Default target
-all: $(CLEQUE_EXEC) 
+all: $(TEST_EXEC) 
 
 
 # Link object files to create the executable
-$(CLEQUE_EXEC): $(CLEQUE_OBJS)
+$(TEST_EXEC): $(TEST_OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean: 
-	rm -f $(CLEQUE_OBJS) $(CLEQUE_EXEC) 
+	rm -f $(TEST_OBJS) $(TEST_EXEC) 
 
 # Phony targets
 .PHONY: all clean
