@@ -3,13 +3,16 @@ CXX = g++
 CXXFLAGS = -Wall -Wextra -O3
 
 CC = gcc
-CFLAGS = -Wall -Wextra -O3
+CFLAGS = -Wall -std=c99 -O3
 
 #Source Files
-SRCS = main.cpp ../time_bench/cpp_test.cpp ../deque_cache/deque.c
+CXX_SRCS = main.cpp ../time_bench/cpp_test.cpp 
+C_SRCS = ../deque_cache/deque.c
 
 # Object files (one for each source file)
-OBJS = $(SRCS:.cpp=.o) $(SRCS:.c=.o)
+CXX_OBJS = $(CXX_SRCS:.cpp=.o)
+C_OBJS = $(C_SRCS:.c=.o)
+OBJS = $(CXX_OBJS) $(C_OBJS)
 
 # Executable name
 EXEC = target

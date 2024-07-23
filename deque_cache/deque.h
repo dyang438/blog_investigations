@@ -2,6 +2,13 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#ifndef DEQUE_H
+#define DEQUE_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif //c++
+
 
 typedef struct deque_node 
 {
@@ -34,3 +41,9 @@ void deque_push_back(deque *input, int val, int print);
 void print_deque(deque* input);
 
 void free_deque(deque* input);
+
+#ifdef __cplusplus
+}
+#endif //c++
+
+#endif // deque_h
