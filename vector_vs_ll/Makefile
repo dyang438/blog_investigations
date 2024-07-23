@@ -2,8 +2,11 @@
 CXX = g++
 CXXFLAGS = -Wall -Wextra -O3
 
+CC = gcc
+CFLAGS = -Wall -Wextra -O3
+
 #Source Files
-SRCS = main.cpp ../time_bench/cpp_test.cpp
+SRCS = main.cpp ../time_bench/cpp_test.cpp ../deque_cache/deque.c
 
 # Object files (one for each source file)
 OBJS = $(SRCS:.cpp=.o)
