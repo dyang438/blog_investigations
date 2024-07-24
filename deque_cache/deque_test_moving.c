@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "deque.h"
-#include "test_timing.h"
+#include "../time_bench/test_timing.h"
 
 #define TEST_SIZE 10
 #define MOVING_SIZE 10

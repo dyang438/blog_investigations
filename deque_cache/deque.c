@@ -15,12 +15,6 @@ deque* init_deque ()
 }
 
 
-int deque_pop_at (deque* input, int index)
-{
-	return 0;
-}
-
-
 int deque_pop_front (deque* input)
 {
 	if (!input || !input->first) {

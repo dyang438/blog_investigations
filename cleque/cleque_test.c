@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "../time_bench/test_timing.h"
 #include "cleque_ptr.h"
-#include "test_timing.h"
 
 #define TEST_SIZE 1000000
 
