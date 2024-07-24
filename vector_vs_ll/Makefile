@@ -1,3 +1,6 @@
+# Compilation currently doesn't work on windows for me, OpenSUSE and Arch work currently though.
+# The C compilation is only needed if you would like to see how my C deque (implemented in std::list style) performs
+
 # Compiler and flags
 CXX = g++
 CXXFLAGS = -Wall -Wextra -O3
