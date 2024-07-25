@@ -10,13 +10,13 @@
 constexpr int TEST_SIZE = 100000;
 
 typedef std::mt19937 rng_type;
-std::uniform_int_distribution<rng_type::result_type> udist(0, 25);
+std::uniform_int_distribution<rng_type::result_type> udist(0, 1000000);
 
 rng_type rng;
 
-void test_vec(double* times);
-void test_list(double* times);
-void test_deque(double* times);
+std::vector<double> test_vec (std::vector<int> test_sizes);
+std::vector<double> test_list (std::vector<int> test_sizes);
+std::vector<double> test_deque (std::vector<int> test_sizes);
 
 void add_sorted_vec(std::vector<int>& sorted_vec, int val);
 void add_sorted_list(std::list<int>& sorted_list, int val);
@@ -28,81 +28,116 @@ int main() {
 	rng_type::result_type const seed_val = static_cast<rng_type::result_type>(std::time(0));
 	rng.seed(seed_val);
 
-	double times [3] = {0, 0, 0};
+	std::vector<std::vector<double>> times;
+	std::vector<int> test_sizes = {5000, 10000};
 
-	test_vec(times);
-	test_list(times);
+	times.push_back(test_vec(test_sizes));
+	times.push_back(test_list(test_sizes));
+
+	for (auto& test : times) {
+		for (auto& time: test) {
+			std::cout<<time<<"\t";
+		}
+		std::cout<<"\n";
+	}
+}
+
+
+std::vector<double> test_vec (std::vector<int> test_sizes) {
+	std::vector<double> insert_results;
+	std::vector<double> remove_results;
+
+	for (int i = 0; i < (int)test_sizes.size(); i++) {
+		std::vector<int> sorted_vec;
+		std::string test_name_insert = "Vector Insert Test " + std::to_string(test_sizes[i]);
+		clock_t start_time = timer_start_time(test_name_insert);
+		for (int j = 0; j < test_sizes[i]; j++) {
+			int rand_num = static_cast<int>(udist(rng));
+			add_sorted_vec(sorted_vec, rand_num);
+		}	
+		double time = timer_end_time(test_name_insert, start_time);
+		insert_results.push_back(time);
+
+
+		std::string test_name_remove = "Vector Remove Test " + std::to_string(test_sizes[i]);
+		start_time = timer_start_time(test_name_remove);
+		for (int j = 0; j < test_sizes[i]; j++) {
+			std::uniform_int_distribution<rng_type::result_type> change (0, test_sizes[i]-j-1);
+			int rand_num = static_cast<int>(change(rng));
+			sorted_vec.erase(sorted_vec.begin()+rand_num);
+		}
+		time = timer_end_time(test_name_remove, start_time);
+		if (sorted_vec.size() == 0) std::cout<<"Passed " + test_name_remove;
+		remove_results.push_back(time);
+	}
 	
-	/* If you would like to see how fast the deque from that post runs compared to STL containers, it's here. It's basically implemented how std::list is */
-	//test_deque(times);
+	insert_results.insert(insert_results.end(), remove_results.begin(), remove_results.end());
+	return insert_results;
+}
 
+void remove_at_index(std::list<int>& sorted_list, int index) {
+	if (index < 0 || index >= static_cast<int>(sorted_list.size())) {
+		return;
+	}
 
-	std::cout<<times[0]<<"\t"<<times[1]<<"\t"<<times[2]<<"\t";
+	//try profiling without using std::advance
+	auto it = sorted_list.begin();
+	std::advance(it, index);
+	sorted_list.erase(it);
+}
 
-	return 2;
+std::vector<double> test_list (std::vector<int> test_sizes) {
+	std::vector<double> insert_results;
+	std::vector<double> remove_results;
+
+	for (int i = 0; i < (int)test_sizes.size(); i++) {
+		std::list<int> sorted_list;
+		std::string test_name = "List Test " + std::to_string(test_sizes[i]);
+		for (int j = 0; j < test_sizes[i]; j++) {
+			rng_type::result_type rand_num = udist(rng);
+			add_sorted_list(sorted_list, static_cast<int>(rand_num));
+		}	
+		clock_t start_time = timer_start_time(test_name);
+			
+		double time = timer_end_time(test_name, start_time);
+		insert_results.push_back(time);
+
+		std::string test_name_remove = "List Remove Test " + std::to_string(test_sizes[i]);
+		start_time = timer_start_time(test_name_remove);
+		for (int j = 0; j < test_sizes[i]; j++) {
+			std::uniform_int_distribution<rng_type::result_type> change (0, test_sizes[i]-j-1);
+			int rand_num = static_cast<int>(change(rng));
+			remove_at_index(sorted_list, rand_num);
+		}
+		time = timer_end_time(test_name_remove, start_time);
+		if (sorted_list.size() == 0) std::cout<<"Passed " + test_name_remove;
+		remove_results.push_back(time);
+	}
+
+	insert_results.insert(insert_results.end(), remove_results.begin(), remove_results.end());
+	return insert_results;
 }
 
 
-void test_vec (double* times) {
-	std::vector<int> sorted_vec;
-	std::string vector_test = "Vector Test";
+std::vector<double> test_deque (std::vector<int> test_sizes) {
+	std::vector<double> results;
 
-	clock_t start_time = timer_start_time(vector_test);
-
-	for (int i = 0; i < TEST_SIZE; i++) {
-		rng_type::result_type rand_num = udist(rng);
-		add_sorted_vec(sorted_vec, static_cast<int>(rand_num));
-	}	
-
-	double time = timer_end_time(vector_test, start_time);
-
-	/*for (int i = 0; i < TEST_SIZE; i++) {*/
-	/*	std::cout<<sorted_vec[i]<<",";*/
-	/*}*/
-
-	times[0] = time;
-}
+	for (int i = 0; i < (int)test_sizes.size(); i++) {
+		deque* sorted_deque = init_deque();
+		std::string test_name = "Deque Test " + std::to_string(test_sizes[i]);
+		clock_t start_time = timer_start_time(test_name);
+		for (int j = 0; j < test_sizes[i]; j++) {
+			rng_type::result_type rand_num = udist(rng);
+			add_sorted_c_deque(sorted_deque, static_cast<int>(rand_num));
+		}	
+		double time = timer_end_time(test_name, start_time);
+		results.push_back(time);
+		free_deque(sorted_deque);
+	}
+	
 
 
-void test_list (double* times) {
-	std::list<int> sorted_list;
-	std::string list_test = "List Test";
-
-	clock_t start_time = timer_start_time(list_test);
-
-	for (int i = 0; i < TEST_SIZE; i++) {
-		rng_type::result_type rand_num = udist(rng);
-		add_sorted_list(sorted_list, static_cast<int>(rand_num));
-	}	
-
-	double time = timer_end_time(list_test, start_time);
-
-	/*for (auto& ele : sorted_list) {*/
-	/*	std::cout<<ele<<",";*/
-	/*}*/
-
-	times[1] = time;
-
-}
-
-
-void test_deque (double* times) {
-	deque* sorted_deque = init_deque();
-	std::string deque_test = "Deque Test";
-
-	clock_t start_time = timer_start_time(deque_test);
-
-	for (int i = 0; i < TEST_SIZE; i++) {
-		rng_type::result_type rand_num = udist(rng);
-		add_sorted_c_deque(sorted_deque, static_cast<int>(rand_num));
-	}	
-
-	double time = timer_end_time(deque_test, start_time);
-	times[2] = time;
-
-	/*print_deque(sorted_deque);*/
-
-	free_deque(sorted_deque);
+	return results;
 }
 
 
@@ -133,8 +168,8 @@ void add_sorted_list(std::list<int>& sorted_list, int val) {
 
 
 void add_sorted_c_deque(deque* sorted_deque, int val) {
-	if (!sorted_deque->first) {
-		deque_push_front(sorted_deque, val, 0);
+	if (!sorted_deque->last || sorted_deque->last->payload < val) {
+		deque_push_back(sorted_deque, val, 0);
 		return;
 	}
 
@@ -144,6 +179,7 @@ void add_sorted_c_deque(deque* sorted_deque, int val) {
 		deque_push_front(sorted_deque, val, 0);
 		return;
 	} 
+	
 
 	while (iter->next != sorted_deque->first) {
 		if (iter->payload > val) {
@@ -157,15 +193,7 @@ void add_sorted_c_deque(deque* sorted_deque, int val) {
 		}
 		iter = iter->next;
 	}
-	if (iter->payload > val) {
-		deque_node* pushed = (deque_node*)malloc(sizeof(deque_node));
-		pushed->next = iter;
-		pushed->prev = iter->prev;
-		pushed->prev->next = pushed;
-		iter->prev = pushed;
-		pushed->payload = val;
-		return;
-	}
+
 	deque_push_back(sorted_deque, val, 0);
 }
 
