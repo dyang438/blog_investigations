@@ -2,7 +2,7 @@
 
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -Wall -Wextra -O3
+CXXFLAGS = -Wall -Wextra -O3 -std=c++11
 
 CC = gcc
 CFLAGS = -Wall -std=c99 -O3
