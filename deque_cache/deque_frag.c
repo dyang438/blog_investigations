@@ -2,7 +2,7 @@
 #include "deque.h"
 
 #define TEST_SIZE 100000
-#define REP_SIZE 1000
+#define REP_SIZE 10000
 #define PRINT 1
 #define NO_PRINT 0
 

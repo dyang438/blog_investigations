@@ -2,7 +2,7 @@
 #include "deque.h"
 
 #define TEST_SIZE 100000
-#define REP_SIZE 1000
+#define REP_SIZE 10000
 #define PRINT 1
 #define NO_PRINT 0
 
@@ -15,6 +15,14 @@ int main() {
 int normal_bench() 
 {
 	deque* main_deque = init_deque();
+	deque* trash_deque = init_deque();
+	for (int i = 0; i < TEST_SIZE; i++) 
+	{
+		deque_push_front(trash_deque, i, NO_PRINT);
+		deque_push_front(trash_deque, i, NO_PRINT);
+		deque_push_front(trash_deque, i, NO_PRINT);
+		deque_push_front(trash_deque, i, NO_PRINT);
+	}
 	for (int i = 0; i < TEST_SIZE; i++)
 	{
 		deque_push_front(main_deque, i, NO_PRINT);
