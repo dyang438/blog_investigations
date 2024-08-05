@@ -26,8 +26,10 @@ int fragmented_bench()
 		deque_push_front(main_deque, i, NO_PRINT);
 		deque_push_front(frag_deque, i, NO_PRINT);
 		deque_push_front(frag_deque, i, NO_PRINT);
+		deque_push_front(frag_deque, i, NO_PRINT);
 
 		deque_push_back(main_deque, i, NO_PRINT);
+		deque_push_front(frag_deque, i, NO_PRINT);
 		deque_push_front(frag_deque, i, NO_PRINT);
 		deque_push_front(frag_deque, i, NO_PRINT);
 

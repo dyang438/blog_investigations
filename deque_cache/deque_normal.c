@@ -66,6 +66,7 @@ int normal_bench()
 		deque_push_front(fight, x[i], NO_PRINT);
 	}
 	free_deque(main_deque);
+	free_deque(trash_deque);
 	free_deque(fight);
 	return 0;
 }
