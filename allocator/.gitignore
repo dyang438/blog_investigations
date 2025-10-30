@@ -1,0 +1,14 @@
+# Build directories
+bin/
+
+# Object files
+*.o
+
+# Debug files
+*.dSYM/
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
