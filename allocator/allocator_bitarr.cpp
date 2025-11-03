@@ -12,7 +12,7 @@ class Allocator {
         int capacity;
         int items;
         size_t t_size;
-        <T>* alloc_store;
+        T_Store<T>* alloc_store;
         
 
     public:

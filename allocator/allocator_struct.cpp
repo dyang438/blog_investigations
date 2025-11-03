@@ -36,6 +36,12 @@ class Allocator {
             return nullptr;
         }
 
+        T* deallocate() {
+            for (int i = 0; i < capacity; i++) {
+
+            }
+        }
+
         ~Allocator() {
             for (int i = 0; i < capacity; i++) {
                 
